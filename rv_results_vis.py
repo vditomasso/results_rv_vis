@@ -1,7 +1,7 @@
 import mass_rv
 import matplotlib.pyplot as plt
 import pandas as pd
-
+from matplotlib.ticker import FormatStrFormatter
 
 def rv_vis(path_to_rv_results_minus_df):
     df = pd.read_csv(path_to_rv_results_minus_df, sep='\t')
@@ -43,6 +43,13 @@ def rv_vis(path_to_rv_results_minus_df):
     labels = ['M6', 'M8', 'L0', 'L2', 'L4', 'L6', 'L8']
     ax.set_xticks(spec_type_range)
     ax.set_xticklabels(labels)
+
+    y_axis_min = ax.dataLim.bounds[1]
+    y_axis_max = ax.dataLim.bounds[3]
+
+    ax.yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
+    y_axis_ticks=[y_axis_min, rv-unc, rv, rv+unc, y_axis_max]
+    ax.set_yticks(y_axis_ticks)
 
     ax.set_xlabel("Spectral Type of RV Standard")
     ax.set_ylabel('Calculated RV (km/s)')
